@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>遊戲題目</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/pure/0.6.0/pure-min.css">
+  <style>
+    body{
+      font-family: "Noto Sans", "Noto Sans CJK TC", "Heiti TC", "微軟正黑體", "Microsoft JhengHei", "WenQuanYi Micro Hei", "WenQuanYi Zen Hei", sans-serif !important;
+    }
+    p{
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #text, #subtext {
+      width: 100%;
+      font-size: 1000%;
+      color: #333;
+    }
+    #text {
+      padding: 90px 0 20px 0;
+    }
+    #subtext {
+      font-size: 300%;
+    }
+    .action {
+      margin: 60px 40px;
+      font-size: 200%;
+      color: #fff;
+    }
+    .counter{
+      font-size: 50%;
+      padding-top: 5px;
+    }
+    .red { background-color: #dd514c;}
+    .orange{ background-color: #f37b1d;}
+    .green{ background-color: #5eb95e;}
+    .blue{ background-color: #1f8dd6;}
+  </style>
+</head>
+<body>
+<p id="text"></p><p id="subtext"></p>
+<p>
+  <button class="pure-button action red"   >常用成語<p class='counter'>0</p></button>
+  <button class="pure-button action orange">暢銷金曲<p class='counter'>0</p></button>
+  <button class="pure-button action blue"  >火車站名<p class='counter'>0</p></button>
+  <button class="pure-button action green" >大專院校<p class='counter'>0</p></button>
+</p>
+
+<script src="words.js"></script>
+<script>
+function rand_pop(arr) {
+    var i = Math.floor(Math.random() * arr.length);
+    var popped = arr.pop();
+    if (i === arr.length) return popped;
+    var res = arr[i];
+    arr[i] = popped;
+    return res;
+};
+
+var choices = [phrases, songs, stations, colleges];
+var p1 = document.getElementById("text");
+var p2 = document.getElementById("subtext");
+var counters = document.getElementsByClassName("counter");
+
+function next(i){
+  var a = rand_pop(choices[i]);
+  if (Array.isArray(a)) {
+    p1.textContent = a[0];
+    p2.textContent = a[1];
+  }
+  else{
+    p1.textContent = a;
+    p2.textContent = "";
+  }
+  counters[i].textContent = choices[i].length.toString();
+};
+
+Array.prototype.forEach.call(counters, 
+    function(e, i, a){e.textContent = choices[i].length.toString();});
+Array.prototype.forEach.call(document.getElementsByClassName("action"), 
+    function(e, i, a){e.setAttribute("onclick", "next("+i.toString()+");");});
+</script>
+
+</body>
+</html>
